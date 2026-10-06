@@ -5,7 +5,6 @@ import {
   Bell, 
   UserCheck, 
   PlusCircle, 
-  Sparkles, 
   PhoneCall, 
   Calendar,
   CheckCircle2,
@@ -24,7 +23,6 @@ interface HeaderProps {
   setCurrentAgentId: (id: string) => void;
   followUps: FollowUpReminder[];
   onOpenNewLead: () => void;
-  onSimulateIncomingLead: () => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   onOpenCustomerDetail?: (leadId: string) => void;
@@ -38,7 +36,6 @@ export const Header: React.FC<HeaderProps> = ({
   setCurrentAgentId,
   followUps,
   onOpenNewLead,
-  onSimulateIncomingLead,
   searchQuery,
   setSearchQuery,
   onOpenCustomerDetail,
@@ -156,17 +153,6 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right / End: Actions */}
         <div className="flex items-center gap-2.5">
-          {/* Simulate Incoming Lead button */}
-          <button
-            onClick={onSimulateIncomingLead}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-medium transition-colors cursor-pointer"
-            title="محاكاة وصول عميل محتمل تلقائياً من Facebook Ads أو WhatsApp"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="hidden lg:inline">محاكاة وصول Lead جديد</span>
-            <span className="lg:hidden">+ Lead تجريبي</span>
-          </button>
-
           {/* New Lead Button */}
           <button
             onClick={onOpenNewLead}

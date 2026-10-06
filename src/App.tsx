@@ -140,61 +140,6 @@ export default function App() {
     });
   };
 
-  // Simulate incoming lead (e.g. from Facebook Ads Webhook or WhatsApp)
-  const handleSimulateIncomingLead = () => {
-    const sampleNames = ['م. حازم القاضي', 'د. ريهام الشناوي', 'المستشار وائل بدر', 'المهندس كريم عز الدين', 'سيدة الأعمال ناهد عثمان'];
-    const sampleProjects = projects;
-    const sampleSources: ('facebook_ads' | 'whatsapp' | 'website')[] = ['facebook_ads', 'whatsapp', 'website'];
-    
-    const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
-    const randomProject = sampleProjects[Math.floor(Math.random() * sampleProjects.length)];
-    const randomSource = sampleSources[Math.floor(Math.random() * sampleSources.length)];
-    const randomPhone = `+20 1${Math.floor(100000000 + Math.random() * 900000000)}`;
-
-    const newId = `lead-sim-${Date.now()}`;
-    const newLead: Lead = {
-      id: newId,
-      name: randomName,
-      phone: randomPhone,
-      email: `client.${Date.now()}@example.com`,
-      source: randomSource,
-      requestType: 'buy',
-      interestedProjectId: randomProject.id,
-      interestedProjectName: randomProject.name,
-      preferredUnitType: 'شقة فندقية',
-      budgetMin: randomProject.minPrice,
-      budgetMax: randomProject.minPrice + 3000000,
-      currency: 'ج.م',
-      stage: 'new_lead',
-      assignedAgentId: null,
-      assignedAgentName: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      score: 88,
-      notes: `عميل تم التقاطه آلياً عبر Webhook من حملة إعلانات ${randomSource === 'facebook_ads' ? 'Facebook Ads' : randomSource === 'whatsapp' ? 'WhatsApp Business' : 'Website'} لمشروع ${randomProject.name}.`,
-    };
-
-    setLeads(prev => [newLead, ...prev]);
-
-    const newActivity: ActivityLog = {
-      id: `act-${Date.now()}`,
-      leadId: newId,
-      agentId: 'system',
-      agentName: 'نظام التقاط الـ Leads الآلي',
-      type: 'whatsapp',
-      title: `وصول عميل جديد من ${randomSource === 'facebook_ads' ? 'Facebook Ads' : 'WhatsApp'}`,
-      description: `سجل العميل ${randomName} اهتماماً بمشروع ${randomProject.name}.`,
-      timestamp: 'الآن',
-    };
-    setActivities(prev => [newActivity, ...prev]);
-
-    setNotificationToast({
-      title: `عميل جديد وصل الآن من ${randomSource === 'facebook_ads' ? 'Facebook Ads' : 'WhatsApp'}!`,
-      message: `${randomName} مهتم بمشروع ${randomProject.name} (الميزانية: ${(newLead.budgetMax / 1000000).toFixed(1)} مليون ج.م)`,
-      leadId: newId,
-    });
-  };
-
   // Update Lead Stage
   const handleUpdateLeadStage = (leadId: string, newStage: PipelineStage) => {
     setLeads(prev => prev.map(lead => {
@@ -493,7 +438,6 @@ export default function App() {
         setCurrentAgentId={setCurrentAgentId}
         followUps={followUps}
         onOpenNewLead={() => setIsNewLeadModalOpen(true)}
-        onSimulateIncomingLead={handleSimulateIncomingLead}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         onOpenCustomerDetail={(leadId) => setSelectedLeadIdForDrawer(leadId)}
